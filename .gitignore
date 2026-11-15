@@ -65,3 +65,7 @@ press-full/
 # Local brand guidelines only (not published; tokens stay in css/tokens.css)
 # Leading slash = repo-root /brand/, not assets/brand/
 /brand/
+
+# Local responsive audit captures (not for Pages publish)
+/audits/
+.audit-shots/

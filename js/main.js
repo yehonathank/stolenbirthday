@@ -1,6 +1,66 @@
 /* Site scripts — client-side / static only. */
 
 (function () {
+  function initNav() {
+    var header = document.querySelector("[data-site-header]");
+    var toggle = document.querySelector("[data-nav-toggle]");
+    var panel = document.querySelector("[data-nav-panel]");
+    if (!header || !toggle || !panel) return;
+
+    var mq = window.matchMedia("(max-width: 40rem)");
+
+    function setOpen(open) {
+      document.body.classList.toggle("is-nav-open", open);
+      toggle.setAttribute("aria-expanded", open ? "true" : "false");
+      toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+      if (open) {
+        var active = panel.querySelector(".site-nav__link.is-active");
+        var focusTarget = active || panel.querySelector(".site-nav__link");
+        if (focusTarget) focusTarget.focus();
+      } else {
+        toggle.focus();
+      }
+    }
+
+    function close() {
+      if (!document.body.classList.contains("is-nav-open")) return;
+      setOpen(false);
+    }
+
+    function open() {
+      setOpen(true);
+    }
+
+    toggle.addEventListener("click", function () {
+      if (!mq.matches) return;
+      if (document.body.classList.contains("is-nav-open")) {
+        close();
+      } else {
+        open();
+      }
+    });
+
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape") close();
+    });
+
+    panel.querySelectorAll(".site-nav__link").forEach(function (link) {
+      link.addEventListener("click", function () {
+        if (mq.matches) close();
+      });
+    });
+
+    function onBreakpointChange() {
+      if (!mq.matches) close();
+    }
+
+    if (typeof mq.addEventListener === "function") {
+      mq.addEventListener("change", onBreakpointChange);
+    } else if (typeof mq.addListener === "function") {
+      mq.addListener(onBreakpointChange);
+    }
+  }
+
   function initStills(root) {
     var viewport = root.querySelector(".stills__viewport");
     var track = root.querySelector("[data-stills-track]");
@@ -341,6 +401,7 @@
     });
   }
 
+  initNav();
   document.querySelectorAll("[data-stills]").forEach(initStills);
   initReveal();
 })();

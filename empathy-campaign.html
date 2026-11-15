@@ -14,31 +14,47 @@
     <link rel="stylesheet" href="css/styles.css" />
   </head>
   <body class="is-pane">
-    <header class="site-header">
-      <nav aria-label="Primary">
-        <ul class="site-nav">
-          <li class="site-nav__item">
-            <a class="site-nav__link" href="index.html">Stolen Birthday</a>
-          </li>
-          <li class="site-nav__item">
-            <a
-              class="site-nav__link is-active"
-              href="empathy-campaign.html"
-              aria-current="page"
-              >Empathy Campaign</a
-            >
-          </li>
-          <li class="site-nav__item">
-            <a class="site-nav__link" href="behind-the-scenes.html"
-              >Behind the Scenes</a
-            >
-          </li>
-          <li class="site-nav__item">
-            <a class="site-nav__link" href="credits.html">Credits</a>
-          </li>
-        </ul>
-      </nav>
+    <header class="site-header" data-site-header>
+      <div class="site-header__bar">
+        <button
+          type="button"
+          class="nav-toggle"
+          data-nav-toggle
+          aria-expanded="false"
+          aria-controls="primary-nav"
+          aria-label="Open menu"
+        >
+          <span class="nav-toggle__icon" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+          </span>
+        </button>
+      </div>
     </header>
+    <nav id="primary-nav" class="site-nav-panel" data-nav-panel aria-label="Primary">
+      <ul class="site-nav">
+        <li class="site-nav__item">
+          <a class="site-nav__link" href="index.html">Stolen Birthday</a>
+        </li>
+        <li class="site-nav__item">
+          <a
+            class="site-nav__link is-active"
+            href="empathy-campaign.html"
+            aria-current="page"
+            >Empathy Campaign</a
+          >
+        </li>
+        <li class="site-nav__item">
+          <a class="site-nav__link" href="behind-the-scenes.html"
+            >Behind the Scenes</a
+          >
+        </li>
+        <li class="site-nav__item">
+          <a class="site-nav__link" href="credits.html">Credits</a>
+        </li>
+      </ul>
+    </nav>
 
     <main class="pane">
       <div class="pane__inner">
@@ -46,5 +62,7 @@
         <p class="pane__lede">Content coming soon.</p>
       </div>
     </main>
+
+    <script src="js/main.js" defer></script>
   </body>
 </html>
