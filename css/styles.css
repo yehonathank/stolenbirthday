@@ -125,8 +125,10 @@ a {
     border-color var(--duration-fast) var(--ease-out);
 }
 
-.site-nav__link:hover {
-  color: var(--color-fg);
+@media (hover: hover) and (pointer: fine) {
+  .site-nav__link:hover {
+    color: var(--color-fg);
+  }
 }
 
 .site-nav__link.is-active {
@@ -200,17 +202,43 @@ body.is-nav-open .nav-toggle__icon span:nth-child(3) {
   transform: translateY(-50%) rotate(-45deg);
 }
 
+.site-header__title {
+  display: none;
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--text-nav);
+  font-weight: var(--font-weight-light);
+  letter-spacing: var(--tracking-nav);
+  line-height: var(--leading-snug);
+  color: var(--color-fg);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
 @media (max-width: 40rem) {
   .site-header__bar {
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: space-between;
+    gap: var(--space-3);
     position: relative;
     z-index: 60;
     min-height: var(--nav-height);
-    padding: var(--space-2) var(--content-inset);
+    padding-top: max(var(--space-2), env(safe-area-inset-top, 0px));
+    padding-bottom: var(--space-2);
+    padding-inline: var(--content-inset);
     background: color-mix(in srgb, var(--color-bg) 94%, transparent);
     border-bottom: var(--border-width) solid var(--color-border);
+  }
+
+  .site-header__title {
+    display: block;
+  }
+
+  .nav-toggle {
+    flex-shrink: 0;
   }
 
   .site-nav-panel {
@@ -224,8 +252,11 @@ body.is-nav-open .nav-toggle__icon span:nth-child(3) {
     height: 100%;
     min-height: 100svh;
     min-height: 100dvh;
-    padding: calc(var(--nav-height) + var(--space-6)) var(--content-inset)
-      var(--space-8);
+    padding: calc(
+        var(--nav-height) + var(--space-6) + env(safe-area-inset-top, 0px)
+      )
+      var(--content-inset)
+      calc(var(--space-8) + env(safe-area-inset-bottom, 0px));
     margin: 0;
     border-bottom: none;
     background: var(--color-bg);
@@ -256,12 +287,23 @@ body.is-nav-open .nav-toggle__icon span:nth-child(3) {
 
   .site-nav__item {
     display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
     width: 100%;
   }
 
+  /* Same token as desktop "|" panes — horizontal hairline between items */
   .site-nav__item:not(:last-child)::after {
-    content: none;
+    content: "";
+    display: block;
+    width: 2.75rem;
+    height: 0;
+    margin: var(--space-4) 0 0;
+    border-bottom: var(--border-width) solid var(--color-border);
+    color: transparent;
+    font-size: 0;
+    line-height: 0;
   }
 
   .site-nav__link {
@@ -278,8 +320,10 @@ body.is-nav-open .nav-toggle__icon span:nth-child(3) {
     border-bottom: none;
   }
 
-  .site-nav__link:hover {
-    color: var(--color-fg);
+  @media (hover: hover) and (pointer: fine) {
+    .site-nav__link:hover {
+      color: var(--color-fg);
+    }
   }
 }
 
@@ -400,7 +444,15 @@ body.is-nav-open .nav-toggle__icon span:nth-child(3) {
     border-color var(--duration-fast) var(--ease-out);
 }
 
-.hero-frame__cta:hover {
+@media (hover: hover) and (pointer: fine) {
+  .hero-frame__cta:hover {
+    color: var(--color-bg);
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+  }
+}
+
+.hero-frame__cta:active {
   color: var(--color-bg);
   background: var(--color-accent);
   border-color: var(--color-accent);
@@ -544,13 +596,21 @@ body.is-nav-open .nav-toggle__icon span:nth-child(3) {
   vector-effect: non-scaling-stroke;
 }
 
-.stills__btn:hover {
-  border-color: var(--color-fg);
-  color: var(--color-fg);
+/* Hover only on fine pointers — touch leaves :hover stuck after tap */
+@media (hover: hover) and (pointer: fine) {
+  .stills__btn:hover {
+    border-color: var(--color-fg);
+    color: var(--color-fg);
+  }
 }
 
 .stills__btn:active {
   background: var(--color-bg-elevated);
+}
+
+.stills__btn:focus-visible {
+  border-color: var(--color-fg);
+  color: var(--color-fg);
 }
 
 /* —— Quote footer —— */
@@ -562,7 +622,9 @@ body.is-nav-open .nav-toggle__icon span:nth-child(3) {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: var(--space-7) 0 var(--space-5);
+  /* env(safe-area-inset-bottom): clear iOS Safari / Android home indicator */
+  padding: var(--space-7) 0
+    calc(var(--space-5) + env(safe-area-inset-bottom, 0px));
 }
 
 .footer-quote {
@@ -644,9 +706,11 @@ body.is-nav-open .nav-toggle__icon span:nth-child(3) {
     border-color var(--duration-fast) var(--ease-out);
 }
 
-.footer-meta__contact a:hover {
-  color: var(--color-fg);
-  border-bottom-color: var(--color-fg);
+@media (hover: hover) and (pointer: fine) {
+  .footer-meta__contact a:hover {
+    color: var(--color-fg);
+    border-bottom-color: var(--color-fg);
+  }
 }
 
 .footer-meta__socials {
@@ -727,7 +791,8 @@ body.is-nav-open .nav-toggle__icon span:nth-child(3) {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: var(--space-8) var(--content-inset);
+  padding: var(--space-8) var(--content-inset)
+    calc(var(--space-8) + env(safe-area-inset-bottom, 0px));
   text-align: center;
 }
 
@@ -766,7 +831,8 @@ body.is-bts {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: var(--space-6) clamp(0.75rem, 2.5vw, 1.75rem) var(--space-8);
+  padding: var(--space-6) clamp(0.75rem, 2.5vw, 1.75rem)
+    calc(var(--space-8) + env(safe-area-inset-bottom, 0px));
 }
 
 /* —— Film credits —— */
@@ -776,7 +842,8 @@ body.is-bts {
   min-height: calc(100dvh - var(--nav-height));
   background: var(--color-bg);
   color: var(--color-fg);
-  padding: var(--space-8) var(--content-inset);
+  padding: var(--space-8) var(--content-inset)
+    calc(var(--space-8) + env(safe-area-inset-bottom, 0px));
 }
 
 .credits__list {
@@ -871,18 +938,14 @@ body.is-bts {
 }
 
 @media (max-width: 40rem) {
-  .credit__row {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    column-gap: var(--credits-as-gutter);
-    row-gap: 0.15em;
-  }
-
+  /* Keep 1fr / auto / 1fr so "as" stays centered like desktop */
   .credit__actor,
   .credit__character {
     white-space: normal;
-    text-align: center;
+  }
+
+  .credit__row {
+    font-size: clamp(0.95rem, 3.6vw, var(--text-credit-name));
   }
 }
 
