@@ -7,8 +7,8 @@ Drop **web-optimized** images here. Prefer JPEG/WebP under ~500 KB each when pos
 | `brand/` | Logo, wordmark, favicon sources |
 | `hero/` | Key art / homepage hero stills |
 | `stills/` | Film stills for galleries or sections |
+| `bts/` | Behind-the-scenes photos for the BTS gallery page |
 | `cast/` | Cast / crew portraits |
-| `leadership/` | Directors / producers / leadership portraits |
 | `posters/` | Poster art |
 | `press/` | Small web-ready press images only (not full press kits or ZIPs) |
 

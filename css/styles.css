@@ -545,3 +545,208 @@ a {
 .pane__home {
   margin: var(--space-5) 0 0;
 }
+
+/* —— Behind the scenes roulette —— */
+
+body.is-bts {
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+.bts {
+  min-height: calc(100svh - var(--nav-height));
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--space-6) clamp(0.75rem, 2.5vw, 1.75rem) var(--space-8);
+}
+
+/* —— Film credits —— */
+
+.credits {
+  min-height: calc(100vh - var(--nav-height));
+  min-height: calc(100dvh - var(--nav-height));
+  background: var(--color-bg);
+  color: var(--color-fg);
+  padding: var(--space-8) var(--content-inset);
+}
+
+.credits__list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--credits-block-gap);
+  width: min(44rem, 100%);
+  margin: var(--space-7) auto 0;
+  text-align: center;
+}
+
+.credits__logo {
+  width: var(--logo-footer-size);
+  height: var(--logo-footer-size);
+  margin: var(--space-8) auto 0;
+  background-color: var(--color-bg);
+  background-image: var(--logo-ny);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.credit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--credits-pair-gap);
+  width: 100%;
+}
+
+.credit__role {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-credit-role);
+  font-weight: var(--font-weight-light);
+  line-height: var(--leading-credit);
+  letter-spacing: var(--tracking-display);
+  color: var(--color-fg);
+}
+
+.credit__name {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-credit-name);
+  font-weight: var(--font-weight-display);
+  line-height: var(--leading-credit);
+  letter-spacing: var(--tracking-display);
+  color: var(--color-fg);
+}
+
+.credit--cast {
+  gap: var(--space-4);
+}
+
+.credit__cast {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--credits-cast-gap);
+  width: min(100%, 46rem);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.credit__row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: baseline;
+  column-gap: var(--credits-as-gutter);
+  font-family: var(--font-display);
+  font-size: var(--text-credit-name);
+  font-weight: var(--font-weight-display);
+  line-height: var(--leading-credit);
+}
+
+.credit__actor {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.credit__as {
+  text-align: center;
+  font-size: 0.92em;
+  font-weight: var(--font-weight-light);
+}
+
+.credit__character {
+  text-align: left;
+  white-space: nowrap;
+}
+
+@media (max-width: 40rem) {
+  .credit__row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    column-gap: var(--credits-as-gutter);
+    row-gap: 0.15em;
+  }
+
+  .credit__actor,
+  .credit__character {
+    white-space: normal;
+    text-align: center;
+  }
+}
+
+.credits-closer {
+  width: 100%;
+  margin: 0;
+  text-align: center;
+}
+
+.credits-closer__inner {
+  width: min(72rem, 100%);
+  margin: 0 auto;
+}
+
+.credits-closer::after {
+  content: "";
+  display: block;
+  width: 100vw;
+  height: var(--border-width);
+  margin: var(--space-5) 0 0;
+  margin-left: calc(50% - 50vw);
+  background: var(--color-border);
+}
+
+.credits-closer__days {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+}
+
+.credits-closer__day {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.credits-closer__day img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  height: auto;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  background: var(--color-bg-elevated);
+}
+
+.credits-closer__day figcaption {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-credit-role);
+  font-weight: var(--font-weight-light);
+  line-height: var(--leading-credit);
+  letter-spacing: var(--tracking-display);
+  color: var(--color-fg);
+}
+
+.credits-closer__thanks {
+  margin: var(--space-5) 0 0;
+  width: 100%;
+  max-width: none;
+  font-family: var(--font-display);
+  font-size: var(--text-credit-name);
+  font-weight: var(--font-weight-display);
+  line-height: var(--leading-snug);
+  letter-spacing: var(--tracking-display);
+  color: var(--color-fg);
+}
+
+@media (max-width: 40rem) {
+  .credits-closer__days {
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+}

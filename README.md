@@ -55,7 +55,6 @@ See [HOSTING.md](HOSTING.md) for limits and alternatives.
 │   ├── hero/           # Homepage key art
 │   ├── stills/         # Film stills
 │   ├── cast/           # Cast / crew photos
-│   ├── leadership/     # Directors / producers / leadership
 │   ├── posters/        # Poster art
 │   └── press/          # Small web-ready press images only
 ├── HOSTING.md
