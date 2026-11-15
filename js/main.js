@@ -27,9 +27,20 @@
     // Layout: [lastClone, ...originals, firstClone]
     var index = 1;
     var animating = false;
+    var animTimer = null;
     var drag = null;
-    var wheelOffset = null;
-    var wheelTimer = null;
+    var wheelLock = false;
+    var wheelLockTimer = null;
+
+    function stillsDurationMs() {
+      var raw = getComputedStyle(document.documentElement)
+        .getPropertyValue("--duration-stills")
+        .trim();
+      var ms = parseFloat(raw);
+      if (!ms) return 720;
+      if (raw.indexOf("s") !== -1 && raw.indexOf("ms") === -1) ms *= 1000;
+      return ms;
+    }
 
     function slideStep() {
       var slide = slides[0];
@@ -46,6 +57,22 @@
       return peek - i * step;
     }
 
+    function readTranslateX() {
+      var transform = window.getComputedStyle(track).transform;
+      if (!transform || transform === "none") return offsetFor(index);
+      var match = transform.match(/matrix\(([^)]+)\)/);
+      if (match) {
+        var parts = match[1].split(",");
+        return parseFloat(parts[4]) || 0;
+      }
+      var match3 = transform.match(/matrix3d\(([^)]+)\)/);
+      if (match3) {
+        var parts3 = match3[1].split(",");
+        return parseFloat(parts3[12]) || 0;
+      }
+      return offsetFor(index);
+    }
+
     function setTranslate(px, animate) {
       if (animate) {
         track.classList.add("is-animating");
@@ -56,37 +83,73 @@
     }
 
     function normalizeIndex() {
-      if (index === 0) {
-        index = total;
-        setTranslate(offsetFor(index), false);
-      } else if (index === total + 1) {
-        index = 1;
-        setTranslate(offsetFor(index), false);
+      if (index !== 0 && index !== total + 1) return;
+      var nextIndex = index === 0 ? total : 1;
+      index = nextIndex;
+      // Force a synchronous jump with no transition so the loop stays seamless.
+      track.classList.remove("is-animating");
+      track.style.transition = "none";
+      track.style.transform = "translateX(" + offsetFor(index) + "px)";
+      void track.offsetWidth;
+      track.style.transition = "";
+    }
+
+    function clearAnimTimer() {
+      if (animTimer) {
+        window.clearTimeout(animTimer);
+        animTimer = null;
       }
+    }
+
+    function scheduleWheelUnlock() {
+      if (wheelLockTimer) window.clearTimeout(wheelLockTimer);
+      // Wait until the gesture goes idle so one trackpad flick ≠ two steps
+      wheelLockTimer = window.setTimeout(function () {
+        wheelLock = false;
+        wheelLockTimer = null;
+      }, 220);
+    }
+
+    function finishAnimation() {
+      if (!animating) return;
+      animating = false;
+      clearAnimTimer();
+      normalizeIndex();
+      if (wheelLock) scheduleWheelUnlock();
     }
 
     function goTo(i, animate) {
       if (animating && animate) return;
+      clearAnimTimer();
       index = i;
-      if (animate) animating = true;
-      setTranslate(offsetFor(index), animate);
-      if (!animate) normalizeIndex();
+      if (animate) {
+        animating = true;
+        setTranslate(offsetFor(index), true);
+        animTimer = window.setTimeout(finishAnimation, stillsDurationMs() + 80);
+      } else {
+        animating = false;
+        setTranslate(offsetFor(index), false);
+        normalizeIndex();
+      }
     }
 
     function nearestIndex(px, velocityX) {
       var step = slideStep();
       if (!step) return index;
 
-      var projected = px + velocityX * 160;
       var peek =
         (viewport.clientWidth - slides[0].getBoundingClientRect().width) / 2;
-      var raw = (peek - projected) / step;
+      var raw = (peek - px) / step;
       var target = Math.round(raw);
 
-      // Magnetic bias toward the swipe direction when near a midpoint
-      if (Math.abs(velocityX) > 0.35) {
-        target = velocityX < 0 ? Math.ceil(raw - 0.15) : Math.floor(raw + 0.15);
+      // Gentle directional bias — still one-step magnetic like page snap
+      if (Math.abs(velocityX) > 0.12) {
+        target = velocityX < 0 ? Math.ceil(raw - 0.28) : Math.floor(raw + 0.28);
       }
+
+      // Never jump more than one slide from the current resting index
+      if (target > index + 1) target = index + 1;
+      if (target < index - 1) target = index - 1;
 
       if (target < 0) target = 0;
       if (target > total + 1) target = total + 1;
@@ -94,24 +157,48 @@
     }
 
     function settleFrom(px, velocityX) {
-      var target = nearestIndex(px, velocityX || 0);
+      var step = slideStep();
+      var origin = offsetFor(index);
+      var dx = px - origin;
+      var target = index;
+
+      // Always land on a full slide — commit next/prev once past a light threshold
+      if (Math.abs(velocityX) > 0.12) {
+        target = velocityX < 0 ? index + 1 : index - 1;
+      } else if (step && Math.abs(dx) > step * 0.18) {
+        target = dx < 0 ? index + 1 : index - 1;
+      }
+
+      if (target < 0) target = 0;
+      if (target > total + 1) target = total + 1;
       goTo(target, true);
-      wheelOffset = null;
+    }
+
+    function stepBy(dir) {
+      if (animating || wheelLock) return;
+      wheelLock = true;
+      goTo(index + dir, true);
     }
 
     function onTransitionEnd(event) {
       if (event.target !== track || event.propertyName !== "transform") return;
-      animating = false;
-      normalizeIndex();
+      finishAnimation();
     }
 
     track.addEventListener("transitionend", onTransitionEnd);
 
     function onPointerDown(event) {
       if (event.button !== undefined && event.button !== 0) return;
+
+      var origin = offsetFor(index);
       if (animating) {
+        origin = readTranslateX();
         animating = false;
+        clearAnimTimer();
         track.classList.remove("is-animating");
+        track.style.transform = "translateX(" + origin + "px)";
+        // Re-align logical index to where we actually stopped
+        index = nearestIndex(origin, 0);
       }
 
       drag = {
@@ -120,16 +207,11 @@
         lastX: event.clientX,
         lastTime: performance.now(),
         velocityX: 0,
-        origin: offsetFor(index),
+        origin: origin,
       };
 
       viewport.classList.add("is-dragging");
       viewport.setPointerCapture(event.pointerId);
-      wheelOffset = null;
-      if (wheelTimer) {
-        window.clearTimeout(wheelTimer);
-        wheelTimer = null;
-      }
     }
 
     function onPointerMove(event) {
@@ -139,6 +221,7 @@
       var dx = event.clientX - drag.startX;
       var dt = Math.max(now - drag.lastTime, 1);
       var frameDx = event.clientX - drag.lastX;
+      // Soften velocity so settle doesn't overshoot
       drag.velocityX = frameDx / dt;
       drag.lastX = event.clientX;
       drag.lastTime = now;
@@ -173,39 +256,29 @@
         var absX = Math.abs(event.deltaX);
         var absY = Math.abs(event.deltaY);
         var horizontal =
-          absX > absY || event.shiftKey || event.deltaX !== 0 && absX > 2;
+          absX > absY || event.shiftKey || (event.deltaX !== 0 && absX > 2);
 
         // Two-finger trackpad horizontal (or shift+wheel) drives the stills;
         // mostly-vertical gestures leave page snap alone.
-        if (!horizontal || absX < 1 && !event.shiftKey) {
+        if (!horizontal || (absX < 1 && !event.shiftKey)) {
           if (!event.shiftKey && absY >= absX) return;
         }
         if (absX < absY && !event.shiftKey) return;
 
         event.preventDefault();
 
-        if (animating) {
-          animating = false;
-          track.classList.remove("is-animating");
-        }
-
         var delta = event.shiftKey && absX < absY ? event.deltaY : event.deltaX;
         if (event.deltaMode === 1) delta *= 16;
         if (event.deltaMode === 2) delta *= viewport.clientWidth;
+        if (Math.abs(delta) < 4) return;
 
-        if (wheelOffset === null) {
-          wheelOffset = offsetFor(index);
+        // One gesture → one full still. Extra wheel events only extend the lock.
+        if (animating || wheelLock) {
+          scheduleWheelUnlock();
+          return;
         }
 
-        wheelOffset -= delta;
-        setTranslate(wheelOffset, false);
-
-        if (wheelTimer) window.clearTimeout(wheelTimer);
-        wheelTimer = window.setTimeout(function () {
-          var px = wheelOffset === null ? offsetFor(index) : wheelOffset;
-          settleFrom(px, 0);
-          wheelTimer = null;
-        }, 90);
+        stepBy(delta > 0 ? 1 : -1);
       },
       { passive: false }
     );

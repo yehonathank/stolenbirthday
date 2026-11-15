@@ -55,7 +55,7 @@ a {
 }
 
 :focus-visible {
-  outline: var(--border-width) solid var(--color-accent);
+  outline: var(--border-width) solid var(--color-fg);
   outline-offset: 3px;
 }
 
@@ -159,9 +159,9 @@ a {
 
 .section--hero {
   position: relative;
-  min-height: calc(100svh - var(--nav-height));
+  min-height: calc(100svh - var(--nav-height) - var(--space-6));
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   padding: 0;
   overflow: visible;
@@ -171,7 +171,7 @@ a {
   position: relative;
   width: 100%;
   aspect-ratio: 21 / 9;
-  max-height: calc(100svh - var(--nav-height));
+  max-height: calc(100svh - var(--nav-height) - var(--space-6));
   background: var(--color-bg-elevated);
   border-block: var(--border-width) solid var(--color-border);
   border-inline: none;
@@ -298,7 +298,7 @@ a {
 }
 
 .stills__track.is-animating {
-  transition: transform var(--duration-med) var(--ease-out);
+  transition: transform var(--duration-stills) var(--ease-stills);
 }
 
 .stills__slide {
@@ -334,10 +334,6 @@ a {
   border: var(--border-width) solid var(--color-border);
   background: transparent;
   color: var(--color-fg);
-  font-family: var(--font-body);
-  font-size: var(--text-small);
-  font-weight: var(--font-weight-light);
-  line-height: 1;
   cursor: pointer;
   display: inline-grid;
   place-items: center;
@@ -346,6 +342,21 @@ a {
     border-color var(--duration-fast) var(--ease-out),
     color var(--duration-fast) var(--ease-out),
     background-color var(--duration-fast) var(--ease-out);
+}
+
+.stills__icon {
+  width: 0.85rem;
+  height: 0.85rem;
+  display: block;
+}
+
+.stills__icon path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: var(--border-width);
+  stroke-linecap: square;
+  stroke-linejoin: miter;
+  vector-effect: non-scaling-stroke;
 }
 
 .stills__btn:hover {

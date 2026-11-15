@@ -21,7 +21,8 @@
   --color-accent-green: #b4c43c;
   --color-green-deep: #2e3810;
   --color-danger: #c42828;
-  --color-border: #3a2e24;
+  /* Soft white — same 1px stroke as before; full #fff reads heavier on black */
+  --color-border: color-mix(in srgb, #ffffff 42%, transparent);
   --color-glow-warm: #5a3a12;
   --color-glow-green: #3a4a14;
   --color-glow-deep: #1a1008;
@@ -65,8 +66,10 @@
 
   /* Motion */
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-stills: cubic-bezier(0.33, 0.1, 0.25, 1);
   --duration-fast: 150ms;
   --duration-med: 320ms;
+  --duration-stills: 720ms;
 
   /* Layout — landing composition */
   --nav-height: 3.25rem;
