@@ -1,0 +1,29 @@
+---
+description: Media guardrails for free GitHub Pages (size, bandwidth, no LFS)
+globs: "**/*.{mp4,mov,webm,mkv,avi,gif,png,jpg,jpeg,webp,svg,pdf,zip}"
+alwaysApply: false
+---
+
+# Media on free GitHub Pages
+
+Prefer a lightweight published tree. Pages is not a video CDN.
+
+## Defaults
+
+- **Trailer / long video**: embed YouTube or Vimeo (public or unlisted). Do not commit large MP4/MOV/WebM.
+- **Images**: compress before commit; prefer WebP/JPEG; avoid multi‑MB PNGs when a smaller format works.
+- **Press kits / PDFs / ZIPs**: host off-repo and link out when the pack is large; keep only light stills in git.
+- **Git LFS**: never for assets that must load on the live Pages site.
+
+## Size checks (before adding or committing)
+
+- **> 25 MiB**: warn the user; propose compress or external host.
+- **> 50 MiB**: stop; do not add without explicit user OK and a free-tier plan.
+- **Video of any meaningful length**: treat as a bandwidth risk; stop and offer embed or object-storage+CDN.
+
+## If media would overstep free limits
+
+1. Stop.
+2. Name the limit (file size, site size ~1 GB, or ~100 GB/mo bandwidth).
+3. Offer alternatives: embed, compress/WebP, off-repo link, or CDN-hosted short clip.
+4. Wait for the user to choose.

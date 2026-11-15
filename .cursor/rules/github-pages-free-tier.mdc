@@ -1,0 +1,44 @@
+---
+description: Enforce free GitHub Pages limits; warn and propose fallbacks before overstepping
+alwaysApply: true
+---
+
+# Free GitHub Pages constraints
+
+This site is a **project site** at `https://USERNAME.github.io/stolenbirthday/`. Stay on the free tier.
+
+## Hard rules
+
+- **Static only**: HTML, CSS, JS (and static assets). No server backends, databases, auth, or on-site checkout.
+- **Public repo** required on Free. Pages output is always public.
+- **Base path**: use relative URLs (or base `/stolenbirthday/`). Root-absolute `/…` breaks assets.
+- Keep a `.nojekyll` file at the publish root for plain static sites.
+- Never use Git LFS for files that Pages must serve (LFS pointers break on Pages).
+- Film promo is fine; do not build e-commerce/SaaS or capture passwords/cards on Pages.
+
+## Limits (warn early)
+
+| Param | Limit | Action |
+| --- | --- | --- |
+| Single file | 100 MiB hard | Warn >25 MiB; do not add >50 MiB without user OK |
+| Site / repo | 1 GB | Warn if published tree likely >~200 MB; stop plans aiming >~500 MB without OK |
+| Bandwidth | ~100 GB/mo soft | Warn before self-hosted video, heavy loops, or large downloads |
+| Builds/hour | 10 soft (branch) | Avoid noisy rebuild loops |
+| Deploy | 10 min timeout | Keep builds light |
+
+## When a limit would be overstepped
+
+1. **Stop** before implementing.
+2. **Notify** the user: name the limit and threshold.
+3. **Offer 2–3 paths** from the fallbacks below (or leaving Pages if free hosting is no longer enough).
+4. **Wait** for the user's choice.
+
+## Fallback paths
+
+- **Video**: YouTube/Vimeo embed; or R2/Bunny/S3+CDN for a short clip (not the git repo).
+- **Large stills / press**: compress/WebP; host ZIPs on Drive/Dropbox/WeTransfer and link out.
+- **Size creep**: delete unused assets; lazy-load; move archive off-repo; Cloudflare/Netlify only with user OK.
+- **Bandwidth**: externalize media; Cloudflare CDN on a custom domain; cut autoplay weight.
+- **Forms / mail / tickets**: Formspree, Buttondown, Eventbrite, etc. (link or embed only).
+- **Privacy / paid needs**: Free = public repo; paid GitHub or another host if private is required.
+- **Build rate**: fewer Pages-triggering commits, or custom Actions publish (no 10/hour soft cap).

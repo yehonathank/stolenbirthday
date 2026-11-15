@@ -1,0 +1,63 @@
+# OS
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+Desktop.ini
+
+# Editors / IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.project
+.settings/
+
+# Env / secrets (never commit)
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials.json
+
+# Dependencies / build (if a static generator is added later)
+node_modules/
+dist/
+build/
+.cache/
+.parcel-cache/
+.vite/
+.turbo/
+.next/
+out/
+public/build/
+
+# Logs & temp
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.tmp/
+.tmp/
+temp/
+
+# Large local media (host trailer externally; keep only optimized web assets in git)
+*.mp4
+*.mov
+*.webm
+*.mkv
+*.avi
+*.m4v
+raw/
+source-media/
+press-full/
+
+# Archives often too large for free Pages
+*.zip
+*.rar
+*.7z
+
+# Git LFS pointer accidents (Pages cannot serve LFS objects)
+*.lfs.*
