@@ -1,0 +1,81 @@
+/**
+ * Stolen Birthday — design tokens (single source of truth)
+ * Edit values here only. Site + local /brand/ guidelines both consume these.
+ * Paths in url() are relative to this file (css/).
+ *
+ * Color: pure black page; warm sodium / brick / sharp greens from assets/stills.
+ * Type: Cormorant Garamond (thin elegant body/display) + Cedarville Cursive (Coming Soon).
+ * Shape: sharp corners everywhere except stills arrow controls (circular by design).
+ */
+
+:root {
+  color-scheme: dark;
+
+  /* Color — tones from /assets/stills */
+  --color-bg: #000000;
+  --color-bg-elevated: #1a120c;
+  --color-fg: #ffffff;
+  --color-muted: #a89880;
+  --color-accent: #d4a04a;
+  --color-accent-warm: #8c4a28;
+  --color-accent-green: #b4c43c;
+  --color-green-deep: #2e3810;
+  --color-danger: #c42828;
+  --color-border: #3a2e24;
+  --color-glow-warm: #5a3a12;
+  --color-glow-green: #3a4a14;
+  --color-glow-deep: #1a1008;
+
+  /* Typography */
+  --font-display: "Cormorant Garamond", "Times New Roman", Times, serif;
+  --font-body: "Cormorant Garamond", "Times New Roman", Times, serif;
+  --font-script: "Cedarville Cursive", "Cormorant Garamond", cursive;
+  --font-weight-light: 300;
+  --font-weight-display: 400;
+  --font-weight-body: 400;
+  --font-weight-strong: 500;
+  --text-hero: clamp(2.75rem, 9vw, 4.5rem);
+  --text-quote: clamp(1.875rem, 5.25vw, 3.75rem);
+  --text-coming-soon: clamp(3.5rem, 14vw, 9rem);
+  --text-h2: clamp(1.5rem, 3vw, 2rem);
+  --text-body: 1.125rem;
+  --text-nav: 0.9375rem;
+  --text-small: 0.875rem;
+  --leading-tight: 1.1;
+  --leading-snug: 1.3;
+  --leading-body: 1.55;
+  --tracking-display: 0;
+  --tracking-wide: 0.06em;
+  --tracking-nav: 0.04em;
+
+  /* Space — 4px scale */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+
+  /* Radius / stroke — sharp corners (cinematic frames, not pills) */
+  --radius-sm: 0;
+  --radius-md: 0;
+  --border-width: 1px;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-fast: 150ms;
+  --duration-med: 320ms;
+
+  /* Layout — landing composition */
+  --nav-height: 3.25rem;
+  --content-inset: clamp(1rem, 4vw, 2.5rem);
+  --quote-max: 75%;
+  --footer-min-height: 75svh;
+  --stills-slide-width: 86%;
+  --logo-footer-size: 9.375rem;
+
+  /* Assets (url relative to css/tokens.css) */
+  --logo-ny: url("../assets/brand/n%26y_logo.jpeg");
+}

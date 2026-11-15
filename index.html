@@ -4,12 +4,182 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Stolen Birthday</title>
-    <link rel="stylesheet" href="styles.css" />
+    <meta
+      name="description"
+      content="Stolen Birthday — a short film. Currently submitting to festivals."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cedarville+Cursive&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/tokens.css" />
+    <link rel="stylesheet" href="css/styles.css" />
   </head>
   <body>
-    <main>
-      <h1>Stolen Birthday</h1>
-      <p>Site coming soon.</p>
+    <header class="site-header">
+      <nav aria-label="Primary">
+        <ul class="site-nav">
+          <li class="site-nav__item">
+            <a
+              class="site-nav__link is-active"
+              href="index.html"
+              aria-current="page"
+              >Stolen Birthday</a
+            >
+          </li>
+          <li class="site-nav__item">
+            <a class="site-nav__link" href="our-story.html">Our Story</a>
+          </li>
+          <li class="site-nav__item">
+            <a class="site-nav__link" href="empathy-campaign.html"
+              >Empathy Campaign</a
+            >
+          </li>
+          <li class="site-nav__item">
+            <a class="site-nav__link" href="behind-the-scenes.html"
+              >Behind the Scenes</a
+            >
+          </li>
+          <li class="site-nav__item">
+            <a class="site-nav__link" href="leadership.html">Leadership</a>
+          </li>
+          <li class="site-nav__item">
+            <a class="site-nav__link" href="credits.html">Credits</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="landing">
+      <section class="section section--hero" aria-label="Film status">
+        <div class="hero-frame">
+          <div class="hero-frame__center">
+            <p class="hero-frame__note">Currently submitting to festivals</p>
+            <a class="hero-frame__cta" href="empathy-campaign.html"
+              >Learn about our Empathy Campaign</a
+            >
+          </div>
+          <div class="hero-frame__copy">
+            <p class="hero-frame__status">Coming Soon…</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section--stills" aria-label="Film stills">
+        <div class="stills" data-stills>
+          <div class="stills__viewport">
+            <div class="stills__track" data-stills-track>
+              <figure class="stills__slide">
+                <img
+                  src="assets/stills/stolen_birthday_still1.png"
+                  alt="Stolen Birthday film still 1"
+                  width="1920"
+                  height="1080"
+                />
+              </figure>
+              <figure class="stills__slide">
+                <img
+                  src="assets/stills/stolen_birthday_still2.png"
+                  alt="Stolen Birthday film still 2"
+                  width="1920"
+                  height="1080"
+                  loading="lazy"
+                />
+              </figure>
+              <figure class="stills__slide">
+                <img
+                  src="assets/stills/stolen_birthday_still3.png"
+                  alt="Stolen Birthday film still 3"
+                  width="1920"
+                  height="1080"
+                  loading="lazy"
+                />
+              </figure>
+              <figure class="stills__slide">
+                <img
+                  src="assets/stills/stolen_birthday_still4.png"
+                  alt="Stolen Birthday film still 4"
+                  width="1920"
+                  height="1080"
+                  loading="lazy"
+                />
+              </figure>
+              <figure class="stills__slide">
+                <img
+                  src="assets/stills/stolen_birthday_still5.png"
+                  alt="Stolen Birthday film still 5"
+                  width="1920"
+                  height="1080"
+                  loading="lazy"
+                />
+              </figure>
+            </div>
+          </div>
+          <div class="stills__controls">
+            <button
+              type="button"
+              class="stills__btn"
+              data-stills-prev
+              aria-label="Previous still"
+            >
+              &lt;
+            </button>
+            <button
+              type="button"
+              class="stills__btn"
+              data-stills-next
+              aria-label="Next still"
+            >
+              &gt;
+            </button>
+          </div>
+        </div>
+      </section>
     </main>
+
+    <footer class="site-footer">
+      <blockquote class="footer-quote" data-reveal>
+        <div class="footer-quote__text">
+          <p>
+            “It is easy to love the concept of humanity.
+          </p>
+          <p>
+            It is much harder to look at the crying, broken man on the
+            restaurant floor and remember he was once someone’s baby boy.”
+          </p>
+        </div>
+        <cite class="footer-quote__attr">– Unknown</cite>
+      </blockquote>
+
+      <div class="footer-meta">
+        <div class="footer-meta__contact">
+          <ul class="footer-meta__socials">
+            <li>
+              <a
+                href="https://www.instagram.com/stolenbirthday/"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Instagram</a
+              >
+            </li>
+            <li>
+              <a href="mailto:yehonathan.k@gmail.com"
+                >yehonathan.k@gmail.com</a
+              >
+            </li>
+          </ul>
+        </div>
+        <div
+          class="footer-meta__logo"
+          role="img"
+          aria-label="N&amp;Y Productions"
+        ></div>
+        <p class="footer-meta__copy">© 2026 Stolen Birthday</p>
+      </div>
+    </footer>
+
+    <script src="js/main.js" defer></script>
   </body>
 </html>

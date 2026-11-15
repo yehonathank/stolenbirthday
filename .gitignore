@@ -61,3 +61,6 @@ press-full/
 
 # Git LFS pointer accidents (Pages cannot serve LFS objects)
 *.lfs.*
+
+# Local brand guidelines (not published; tokens stay in css/tokens.css)
+brand/

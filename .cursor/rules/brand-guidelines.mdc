@@ -1,0 +1,44 @@
+---
+description: Edit Stolen Birthday UI only through css/tokens.css; keep brand guidelines in sync
+globs: "**/*.{html,css,js}"
+alwaysApply: false
+---
+
+# Brand guidelines (website edits)
+
+Visual language is defined in **`css/tokens.css`** (single source of truth). The live reference is local **`brand/index.html`** (gitignored; not published to Pages).
+
+## Confirmed look (landing v1)
+
+- **Background:** pure black (`--color-bg: #000000`).
+- **Palette:** warm sodium / brick / muted sand from `assets/stills`, plus sharp chartreuse greens; gold CTAs via `--color-accent`.
+- **Type:** Cormorant Garamond for all UI (thin/elegant). Cedarville Cursive **only** for “Coming Soon…” (`--font-script`).
+- **Corners:** sharp (`--radius-*` = 0). Exception: stills prev/next controls are circular arrows.
+- **Nav:** thin, small (~body), elegant pipe-separated panes in one row; first item is **Stolen Birthday** → `index.html`.
+- **Landing rhythm:** three magnetic snap sections — full-bleed movie-screen hero → stills card-stack roulette → quote footer (~75svh, quote ~75% width).
+- **Hero:** empty dark frame (no play button); status + gold Empathy CTA centered; “Coming Soon…” overlays the bottom ~20% and barely crosses the frame’s bottom edge.
+- **Logo:** N&Y production mark in footer center via `--logo-ny` / `--logo-footer-size` — credit mark, not a UI font.
+
+## Must
+
+- Change colors, type, space, radius, motion, layout measures, and logo path **only** in `css/tokens.css`.
+- Use `var(--token-name)` in page CSS (`css/styles.css`, `brand/guidelines.css`, etc.).
+- When adding a token: define it in `tokens.css` **and** add a labeled visual on `brand/index.html`.
+- Before inventing a new color or font, compare against `/brand/` and reuse an existing token if it fits.
+- Keep relative URLs so the site works under `/stolenbirthday/`.
+- Load **Cormorant Garamond** and **Cedarville Cursive** (Google Fonts) on every HTML page that uses those tokens.
+- Prefer light elegant weights (`--font-weight-light` / `--font-weight-display` / `--font-weight-body`); avoid heavy 700 display unless a token says otherwise.
+
+## Must not
+
+- Hardcode hex/rgb/`#…` or new font stacks in page CSS when a token already exists.
+- Duplicate token values into Markdown or inline styles as a second source of truth.
+- Restyle the site by editing random CSS without updating `tokens.css`.
+- Soften frames into pills/cards, reintroduce a play button on the empty hero, or drop pure black for a near-black wash without an explicit token change.
+- Publish `brand/` to Pages (it stays gitignored).
+
+## Flow
+
+1. Edit `css/tokens.css`.
+2. Confirm swatches/specimens on `brand/index.html` still match intent.
+3. Use the token in component/page CSS.
