@@ -790,15 +790,31 @@ body.is-nav-open .nav-toggle__icon span:nth-child(3) {
   }
 }
 
+/* —— Meta-footer pages: one composition (footer always with main) —— */
+/* Landing quote footer stays a separate snap page; these do not. */
+
+body.is-pane,
+body.is-free-scroll {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+body.is-pane > .site-footer--meta,
+body.is-free-scroll > .site-footer--meta {
+  flex-shrink: 0;
+}
+
 /* —— Pane placeholder pages —— */
 
 .pane {
-  min-height: calc(100dvh - var(--nav-height));
+  flex: 1 1 auto;
+  min-height: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: var(--space-8) var(--content-inset)
-    calc(var(--space-8) + var(--browser-chrome-bottom) + var(--safe-bottom));
+  padding: var(--space-8) var(--content-inset) var(--space-6);
   text-align: center;
 }
 
@@ -827,28 +843,22 @@ body.is-nav-open .nav-toggle__icon span:nth-child(3) {
 
 /* —— Behind the scenes roulette —— */
 
-body.is-bts {
-  min-height: 100vh;
-  min-height: 100dvh;
-}
-
 .bts {
-  min-height: calc(100dvh - var(--nav-height));
+  flex: 1 1 auto;
+  min-height: 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: var(--space-6) clamp(0.75rem, 2.5vw, 1.75rem)
-    calc(var(--space-8) + var(--browser-chrome-bottom) + var(--safe-bottom));
+  padding: var(--space-6) clamp(0.75rem, 2.5vw, 1.75rem) var(--space-5);
 }
 
 /* —— Film credits —— */
 
 .credits {
-  min-height: calc(100dvh - var(--nav-height));
+  flex: 1 0 auto;
   background: var(--color-bg);
   color: var(--color-fg);
-  padding: var(--space-8) var(--content-inset)
-    calc(var(--space-8) + var(--browser-chrome-bottom) + var(--safe-bottom));
+  padding: var(--space-8) var(--content-inset) var(--space-6);
 }
 
 .credits__list {
