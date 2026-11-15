@@ -62,5 +62,6 @@ press-full/
 # Git LFS pointer accidents (Pages cannot serve LFS objects)
 *.lfs.*
 
-# Local brand guidelines (not published; tokens stay in css/tokens.css)
-brand/
+# Local brand guidelines only (not published; tokens stay in css/tokens.css)
+# Leading slash = repo-root /brand/, not assets/brand/
+/brand/
