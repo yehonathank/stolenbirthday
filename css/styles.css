@@ -8,7 +8,7 @@ html {
   scroll-behavior: smooth;
 }
 
-html:not(:has(body.is-pane)) {
+html:not(:has(body.is-pane, body.is-free-scroll)) {
   scroll-snap-type: y mandatory;
   scroll-padding-top: var(--nav-height);
 }
@@ -38,7 +38,7 @@ body.is-pane {
     scroll-behavior: auto;
   }
 
-  html:not(:has(body.is-pane)) {
+  html:not(:has(body.is-pane, body.is-free-scroll)) {
     scroll-snap-type: y proximity;
   }
 }
@@ -218,6 +218,11 @@ body.is-nav-open .nav-toggle__icon span:nth-child(3) {
 }
 
 @media (max-width: 40rem) {
+  :root {
+    /* ~Safari/Chrome iOS bottom toolbar; safe-area alone is not enough */
+    --browser-chrome-bottom: 5.25rem;
+  }
+
   .site-header__bar {
     display: flex;
     align-items: center;
@@ -256,7 +261,7 @@ body.is-nav-open .nav-toggle__icon span:nth-child(3) {
         var(--nav-height) + var(--space-6) + env(safe-area-inset-top, 0px)
       )
       var(--content-inset)
-      calc(var(--space-8) + env(safe-area-inset-bottom, 0px));
+      calc(var(--space-8) + var(--browser-chrome-bottom) + var(--safe-bottom));
     margin: 0;
     border-bottom: none;
     background: var(--color-bg);
@@ -346,7 +351,7 @@ body.is-nav-open .nav-toggle__icon span:nth-child(3) {
 
 .section--hero,
 .section--stills,
-.site-footer {
+.site-footer:not(.site-footer--meta) {
   scroll-snap-align: start;
   scroll-snap-stop: always;
 }
@@ -622,9 +627,30 @@ body.is-nav-open .nav-toggle__icon span:nth-child(3) {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  /* env(safe-area-inset-bottom): clear iOS Safari / Android home indicator */
+  /* safe-bottom = home indicator; browser-chrome-bottom = Safari/Chrome toolbar */
   padding: var(--space-7) 0
-    calc(var(--space-5) + env(safe-area-inset-bottom, 0px));
+    calc(
+      var(--space-5) + var(--browser-chrome-bottom) + var(--safe-bottom)
+    );
+}
+
+/* Contact + © only (no quote / no N&Y mark) — Empathy, BTS, Credits */
+.site-footer--meta {
+  min-height: 0;
+  justify-content: flex-end;
+  border-top: none;
+  padding-top: 0;
+  /* Never a snap “page” — only the landing quote footer snaps */
+  scroll-snap-align: unset;
+  scroll-snap-stop: normal;
+}
+
+.site-footer--meta .footer-meta {
+  margin-top: 0;
+}
+
+.footer-meta--simple {
+  grid-template-columns: 1fr 1fr;
 }
 
 .footer-quote {
@@ -729,17 +755,6 @@ body.is-nav-open .nav-toggle__icon span:nth-child(3) {
   display: none;
 }
 
-.footer-meta__logo {
-  justify-self: center;
-  width: var(--logo-footer-size);
-  height: var(--logo-footer-size);
-  background-color: var(--color-bg);
-  background-image: var(--logo-ny);
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
 .footer-meta__copy {
   justify-self: end;
   text-align: right;
@@ -760,19 +775,10 @@ body.is-nav-open .nav-toggle__icon span:nth-child(3) {
 
   .footer-meta__contact {
     justify-self: center;
-    order: 1;
-  }
-
-  .footer-meta__logo {
-    justify-self: center;
-    order: 2;
-    width: calc(var(--logo-footer-size) * 0.8);
-    height: calc(var(--logo-footer-size) * 0.8);
   }
 
   .footer-meta__copy {
     justify-self: center;
-    order: 3;
     text-align: center;
     white-space: normal;
   }
@@ -787,12 +793,12 @@ body.is-nav-open .nav-toggle__icon span:nth-child(3) {
 /* —— Pane placeholder pages —— */
 
 .pane {
-  min-height: calc(100vh - var(--nav-height));
+  min-height: calc(100dvh - var(--nav-height));
   display: flex;
   align-items: center;
   justify-content: center;
   padding: var(--space-8) var(--content-inset)
-    calc(var(--space-8) + env(safe-area-inset-bottom, 0px));
+    calc(var(--space-8) + var(--browser-chrome-bottom) + var(--safe-bottom));
   text-align: center;
 }
 
@@ -827,23 +833,22 @@ body.is-bts {
 }
 
 .bts {
-  min-height: calc(100svh - var(--nav-height));
+  min-height: calc(100dvh - var(--nav-height));
   display: flex;
   flex-direction: column;
   justify-content: center;
   padding: var(--space-6) clamp(0.75rem, 2.5vw, 1.75rem)
-    calc(var(--space-8) + env(safe-area-inset-bottom, 0px));
+    calc(var(--space-8) + var(--browser-chrome-bottom) + var(--safe-bottom));
 }
 
 /* —— Film credits —— */
 
 .credits {
-  min-height: calc(100vh - var(--nav-height));
   min-height: calc(100dvh - var(--nav-height));
   background: var(--color-bg);
   color: var(--color-fg);
   padding: var(--space-8) var(--content-inset)
-    calc(var(--space-8) + env(safe-area-inset-bottom, 0px));
+    calc(var(--space-8) + var(--browser-chrome-bottom) + var(--safe-bottom));
 }
 
 .credits__list {

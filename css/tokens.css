@@ -87,6 +87,11 @@
   --footer-min-height: 75svh;
   --stills-slide-width: 86%;
   --logo-footer-size: 9.375rem;
+  /* Home indicator / notch only — NOT Safari’s toolbar */
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  /* Extra clearance for mobile browser chrome (Safari bottom bar ≈ 5rem).
+     safe-area-inset alone does not cover that toolbar. */
+  --browser-chrome-bottom: 0px;
 
   /* Assets (url relative to css/tokens.css) */
   --logo-ny: url("../assets/brand/n%26y_logo.jpeg");
